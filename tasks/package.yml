@@ -3,5 +3,5 @@
 - name: Install package
   become: yes
   package:
-    name: chronograph_pkg
+    name: chronograph
     state: present
