@@ -1,13 +1,7 @@
 ---
 
-- name: Download package
-  become: yes
-  get_url:
-    url: "{{ chronograph_pkg }}"
-    dest: /tmp/chronograf_linux_armhf.tar.gz
-    checksum: "sha256:{{chronograph_pkg_checksum }}"
-
 - name: Install package
-  unarchive:
-    src: /tmp/chronograf_linux_armhf.tar.gz
-    dest: /usr/local/bin/chronograf
+  become: yes
+  package:
+    name: chronograph_pkg
+    state: present
