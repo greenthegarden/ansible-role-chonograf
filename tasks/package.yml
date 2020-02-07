@@ -2,6 +2,6 @@
 
 - name: Install package
   become: yes
-  package:
-    name: chronograph
-    state: present
+  apt:
+    deb: "{{ chronograph_pkg_deb }}"
+  when: ansible_pkg_mgr == 'apt'
