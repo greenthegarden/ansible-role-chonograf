@@ -4,27 +4,27 @@
   block:
     - name: Download archived binary
       get_url:
-        url: "{{ chronograph_binary_arm }}"
-        dest: "{{ chronograph_download_destination }}"
-        checksum: "sha256:{{chronograph_binary_arm_checksum }}"
+        url: "{{ chronograf_binary_arm }}"
+        dest: "{{ chronograf_download_destination }}"
+        checksum: "sha256:{{chronograf_binary_arm_checksum }}"
 
     - name: Install archived binary
       become: yes
       unarchive:
-        src: "{{ chronograph_download_destination }}"
-        dest: "{{ chronograph_binary_location }}"
+        src: "{{ chronograf_download_destination }}"
+        dest: "{{ chronograf_install_location }}"
         remote_src: yes
 
     - name: Add service
       become: yes
       template:
         src: chronograf.service.j2
-        dest: /etc/systemd/system/chronograf.service
+        dest: "/etc/systemd/system/{{ chronograf_service_name }}.service"
 
     - name: Run service
       become: yes
       systemd:
-        name: chronograf
+        name: "{{ chronograf_service_name }}"
         state: started
         daemon_reload: yes
         enabled: yes
