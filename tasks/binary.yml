@@ -13,6 +13,7 @@
       unarchive:
         src: "{{ chronograph_download_destination }}"
         dest: "{{ chronograph_binary_location }}"
+        remote_src: yes
 
     - name: Add service
       become: yes
