@@ -1,16 +1,30 @@
 ---
 
-- name: Install from binary when arm
+- name: Install from binary when architecture is ARM
   block:
-    - name: Download package
-      become: yes
+    - name: Download archived binary
       get_url:
-        url: "{{ chronograph_pkg }}"
-        dest: /tmp/chronograf_linux_armhf.tar.gz
-        checksum: "sha256:{{chronograph_pkg_checksum }}"
+        url: "{{ chronograph_binary_arm }}"
+        dest: "{{ chronograph_download_destination }}"
+        checksum: "sha256:{{chronograph_binary_arm_checksum }}"
 
-    - name: Install package
+    - name: Install archived binary
+      become: yes
       unarchive:
-        src: /tmp/chronograf_linux_armhf.tar.gz
-        dest: /usr/local/bin/chronograf
+        src: "{{ chronograph_download_destination }}"
+        dest: "{{ chronograph_binary_location }}"
+
+    - name: Add service
+      become: yes
+      template:
+        src: chronograf.service.j2
+        dest: /etc/systemd/system/chronograf.service
+
+    - name: Run service
+      become: yes
+      systemd:
+        name: chronograf
+        state: started
+        daemon_reload: yes
+        enabled: yes
   when: ansible_architecture.find('v=' ~ 'arm') == -1

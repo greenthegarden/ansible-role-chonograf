@@ -3,8 +3,11 @@
 
 chronograph_version: 1.7.17
 
-chronograph_pkg_arm: "https://dl.influxdata.com/chronograf/releases/chronograf-{{ chronograph_version }}_linux_armhf.tar.gz"
-chronograph_pkg_arm_checksum: 668af068b16e0c172ac9d7ccb32b417f60214eb227228872de9f7760a17972fb
+chronograph_download_destination: /tmp/chronograf_linux_armhf.tar.gz
+chronograph_binary_location: /usr/bin/chronograf
+
+chronograph_binary_arm: "https://dl.influxdata.com/chronograf/releases/chronograf-{{ chronograph_version }}_linux_armhf.tar.gz"
+chronograph_binary_arm_checksum: 668af068b16e0c172ac9d7ccb32b417f60214eb227228872de9f7760a17972fb
 
 chronograph_pkg_deb: "https://dl.influxdata.com/chronograf/releases/chronograf_{{ chronograph_version }}_amd64.deb"
 chronograph_pkg_deb_checksum: fb438f779560836f92ef889f2de6349232f7eb219cc0b1ce146eebfea47ae616
