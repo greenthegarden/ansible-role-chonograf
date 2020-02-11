@@ -1,11 +1,10 @@
 ---
-# defaults file for ansible-role-chonograf
+# defaults file for ansible-role-chronograf
 
 chronograf_version: 1.7.17
 
 chronograf_download_destination: /tmp/chronograf_linux_armhf.tar.gz
 chronograf_install_location: /usr/bin
-chronograf_service_name: chronograf
 
 chronograf_binary_arm: "https://dl.influxdata.com/chronograf/releases/chronograf-{{ chronograf_version }}_linux_armhf.tar.gz"
 chronograf_binary_arm_checksum: 668af068b16e0c172ac9d7ccb32b417f60214eb227228872de9f7760a17972fb
@@ -14,3 +13,15 @@ chronograf_pkg_deb: "https://dl.influxdata.com/chronograf/releases/chronograf_{{
 chronograf_pkg_deb_checksum: fb438f779560836f92ef889f2de6349232f7eb219cc0b1ce146eebfea47ae616
 
 chronograf_pkg: chronograf
+
+chronograf_image_name: chronograf
+chronograf_image_tag: 1.7.16
+
+chronograf_volume_name: chronograf
+
+chronograf_service_name: chronograf
+chronograf_service_ports_http: 8888
+chronograf_service_ports: [
+  { label: http, value: "{{ chronograf_service_ports_http }}" },
+]
+chronograf_service_restart_policy: always

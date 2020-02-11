@@ -1,0 +1,34 @@
+---
+
+- name: "Create {{ chronograf_volume_name }} Docker volume"
+  docker_volume:
+    name: "{{ chronograf_volume_name }}"
+
+- name: "deregister {{ chronograf_service_name }} service with the local consul agent"
+  consul:
+    service_name: "{{ chronograf_service_name }}-{{ item.value }}"
+    service_port: "{{ item.value }}"
+    state: absent
+  with_dict: "{{ chronograf_service_ports }}"
+  when: service_consul_running
+
+- name: "Run image {{ chronograf_image_name }}:{{ chronograf_image_tag }} as service {{ chronograf_service_name }}"
+  docker_container:
+    name: "{{ chronograf_service_name }}"
+    image: "{{ chronograf_image_name }}:{{ chronograf_image_tag }}"
+    published_ports:
+      - "{{ chronograf_service_ports_http }}:8888"
+    volumes:
+      - "{{ chronograf_volume_name }}:/var/lib/chronograf"
+    recreate: yes
+    restart_policy: "{{ chronograf_service_restart_policy }}"
+    state: started
+  register: chronograf_service_launched
+
+- name: "register {{ chronograf_service_name }} service with the local consul agent"
+  consul:
+    service_name: "{{ chronograf_service_name}}-{{ item.value }}"
+    service_port: "{{ item.value }}"
+    state: present
+  with_dict: "{{ chronograf_service_ports }}"
+  when: service_consul_running
