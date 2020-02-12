@@ -2,7 +2,7 @@
 
 - set_fact:
     chronograf_pkg: "{{ chronograf_pkg_deb }}"
-  when: ansible_architecture == 'amd64'
+  when: ansible_architecture == 'x86_64'
 
 - name: Install package
   become: yes
